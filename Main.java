@@ -20,5 +20,9 @@ public class Main {
 
         // Print the ArrayList again
         System.out.println("Updated ArrayList: " + test);
+
+        for(String s : test) {
+            System.out.println(s);
+        }
     }
 }
