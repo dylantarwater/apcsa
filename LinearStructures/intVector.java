@@ -1,3 +1,4 @@
+package LinearStructures;
 public class intVector {
     private final static int INITIAL_CAPACITY = 10;
     private int[] arr = new int [INITIAL_CAPACITY];
