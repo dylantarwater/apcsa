@@ -1,6 +1,8 @@
 package LinearStructures;
+import java.util.Iterator;
 
-public class LinkedList<E> {
+public class LinkedList<E> implements Iterable<E> {
+
     private int size = 0;
     private Node<E> head, tail;
 
@@ -10,8 +12,7 @@ public class LinkedList<E> {
     // Constructor that takes an array of objects
     public LinkedList(E[] objects) {
         for (int i = 0; i < objects.length; i++) {
-            // add(objects[i])
-            // It seems like you are missing the actual implementation for adding elements from the array.
+            add(objects[i]);
         }
     }
 
@@ -44,7 +45,7 @@ public class LinkedList<E> {
         int index = 0;
         Node<E> current = head;
         do {
-            if (current.element == e) {
+            if (current.element.equals(e)) {
                 return index;
             }
             current = current.next;
@@ -87,8 +88,8 @@ public class LinkedList<E> {
                 current = current.next;
             }
             Node<E> temp = current.next;
-            current.next = new Node<E>(e);
-            (current.next).next = temp;
+            current.next = new Node<>(e);
+            current.next.next = temp;
             size++;
         }
     }
@@ -148,7 +149,7 @@ public class LinkedList<E> {
     // Node class for creating elements in the linked list
     private static class Node<E> {
         E element;
-        Node next;
+        Node<E> next;
 
         // Node constructor
         public Node(E element) {
@@ -209,5 +210,44 @@ public class LinkedList<E> {
         } while (current != null);
 
         return lastIndex;
+    }
+
+    // Set the element at a specific index
+    public E set(int index, E e) {
+        checkIndex(index);
+
+        Node<E> current = head;
+        for (int i = 0; i < index; i++) {
+            current = current.next;
+        }
+
+        E oldValue = current.element;
+        current.element = e;
+
+        return oldValue;
+    }
+
+    @Override
+    public Iterator<E> iterator() {
+        return new LinkedListIterator();
+    }
+
+    private class LinkedListIterator implements Iterator<E> {
+        private Node<E> current = head;
+
+        @Override
+        public boolean hasNext() {
+            return current != null;
+        }
+
+        @Override
+        public E next() {
+            if (!hasNext()) {
+                throw new java.util.NoSuchElementException();
+            }
+            E element = current.element;
+            current = current.next;
+            return element;
+        }
     }
 }
